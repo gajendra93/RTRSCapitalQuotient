@@ -14,6 +14,7 @@ export default class Restaurant extends React.Component {
 		}
 		this.addRestro = this.addRestro.bind(this);
 		this.getRestros = this.getRestros.bind(this);
+		this.editRestro = this.editRestro.bind(this);
 		this.deleteRestro = this.deleteRestro.bind(this);
 	}
 
@@ -52,6 +53,21 @@ export default class Restaurant extends React.Component {
 			})
 	}
 
+	editRestro(restro) {
+		let th = this;
+		Request
+			.post('/restaurant/editrestro')
+			.send(restro)
+			.end(function (err, res) {
+				if(err)
+		    	console.log(err);
+		    else {
+		    	console.log('Restro updated successfully...');
+		    	th.getRestros();
+		    }
+			})
+	}
+
 	deleteRestro(restro) {
 		let th = this;
 		Request
@@ -84,6 +100,7 @@ export default class Restaurant extends React.Component {
 										<Col md={4} key={key}>
 											<RestaurantCard 
 												restro={restro}
+												handleRestroEdit={th.editRestro}
 												handleRestroDelete={th.deleteRestro}
 											/>
 										</Col>

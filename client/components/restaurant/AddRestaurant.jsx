@@ -39,6 +39,17 @@ export default class AddRestaurant extends React.Component {
 		this.resetFields = this.resetFields.bind(this);
 	}
 
+	componentWillMount() {
+		if(this.props.edit) {
+			this.setState({
+				name: this.props.restro.name,
+				location: this.props.restro.location,
+				cuisines: this.props.restro.cuisines,
+				tables: this.props.restro.tables
+			})
+		}
+	}
+
 	handleNameChange(event) {
 		this.setState({
 			name: event.target.value
@@ -84,7 +95,11 @@ export default class AddRestaurant extends React.Component {
 		restro.location = this.state.location;
 		restro.cuisines = this.state.cuisines;
 		restro.tables = this.state.tables;
-		this.props.handleAdd(restro);
+		if(this.props.edit) {
+			this.props.handleEdit(restro)
+		} else {
+			this.props.handleAdd(restro);
+		}
 		this.resetFields();
 	}
 
@@ -99,6 +114,7 @@ export default class AddRestaurant extends React.Component {
 
 	render() {
 		let th = this;
+		let buttonLabel = this.props.edit? "Save" : "Add Restro"
 		return(
 			<div>
 				<TextField
@@ -106,6 +122,7 @@ export default class AddRestaurant extends React.Component {
 		      floatingLabelText="Name"
 		      value={this.state.name}
 		      onChange={this.handleNameChange}
+		      disabled={this.props.edit}
 		    /><br/>
 		    <SelectField
           floatingLabelText="Location"
@@ -168,11 +185,13 @@ export default class AddRestaurant extends React.Component {
 	        </div>
       	}	
 		    <br/>
-		    <RaisedButton 
-		    	label="Add Restro" 
-		    	primary={true} 
-		    	onClick={this.handleAdd}
-		    />
+		    {
+		    	<RaisedButton 
+			    	label={buttonLabel} 
+			    	primary={true} 
+			    	onClick={this.handleAdd}
+			    />
+		    }
 			</div>
 		)
 	}

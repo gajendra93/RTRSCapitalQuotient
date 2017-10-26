@@ -35,6 +35,21 @@ router.get('/restros', function(req, res) {
 	}
 })
 
+// Edit restaurant
+router.post('/editrestro', function(req, res) {
+	try {
+		restaurantMongoController.editRestaurant(req.body, function(result) {
+			res.send(result);
+		}, function(err) {
+			res.status(500).json({error: 'Cannot remove restaurant in db...!'});
+		})
+	} catch(err) {
+		res.status(500).json({
+      error: 'Internal error occurred, please report...!'
+    });
+	}
+})
+
 // Removing a restaurant
 router.delete('/removerestro', function(req, res) {
 	try {

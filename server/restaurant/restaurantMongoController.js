@@ -5,8 +5,7 @@ let addRestaurant = function(restroObj, successCB, errorCB) {
 	saveRestro.save(function(err, result) {
 		if(err) {
 			errorCB(err);
-		}
-		else {
+		} else {
 			successCB(result);
 		}
 	});
@@ -16,8 +15,19 @@ let getRestaurants = function (successCB, errorCB) {
 	RestaurantModel.find(function (err, result) {
 		if (err) {
 			errorCB(err);
+		} else {
+			successCB(result);
 		}
-		successCB(result);
+	});
+}
+
+let editRestaurant = function(restro, successCB, errorCB) {
+	RestaurantModel.update({'name': restro.name}, restro, function(err, result) {
+		if(err) {
+			errorCB(err);
+		} else {
+			successCB(result);
+		}
 	});
 }
 
@@ -25,8 +35,7 @@ let removeRestaurant = function(restro, successCB, errorCB) {
 	RestaurantModel.remove(restro, function(err, result) {
 		if(err) {
 			errorCB(err);
-		}
-		else {
+		} else {
 			successCB(result);
 		}
 	});
@@ -35,5 +44,6 @@ let removeRestaurant = function(restro, successCB, errorCB) {
 module.exports = {
 	addRestaurant: addRestaurant,
 	getRestaurants: getRestaurants,
+	editRestaurant: editRestaurant,
 	removeRestaurant: removeRestaurant
 }
